@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/g/My%20Drive/PreTraineeship/mlruns/0/d889e5b9019f46b192061d9af2f406d9/artifacts
+end_time: 1648562638660
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: d889e5b9019f46b192061d9af2f406d9
+run_uuid: d889e5b9019f46b192061d9af2f406d9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1648562635400
+status: 3
+tags: []
+user_id: smwhering
