@@ -1,5 +1,4 @@
 outs:
-- md5: 557384a052db693ac0367409efe7ce9a
-  size: 1249676
-  isexec: true
+- md5: 89791ee3d014a17e17e464328e217447
+  size: 386609
   path: beer_profile_and_ratings.csv
