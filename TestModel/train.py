@@ -36,7 +36,7 @@ version="<GIT COMMIT>"
 remote="storage"
 
 data_url = dvc.api.get_url(path=path, repo=repo)
-mlflow.set_experiment("demo")
+mlflow.set_experiment("/my-experiment")
 
 
 if __name__ == "__main__":
@@ -68,9 +68,9 @@ if __name__ == "__main__":
 
     with mlflow.start_run(run_name="GradientBoosterRun") as run:
 
-        params = {"n_estimators": 100,
-                  "learning_rate":1.0,
-                  "max_depth":5,}
+        params = {"n_estimators": n_estimators,
+                  "learning_rate":learning_rate,
+                  "max_depth":max_depth,}
 
         gradBoost = GradientBoostingClassifier(**params)
 
@@ -90,6 +90,23 @@ if __name__ == "__main__":
         print(f"  top_k_accuracy_score: {top_k_accuracy_score}")
         print(f"  average_precision_score: {average_precision_score}")
         print(f"  roc_auc_score: {roc_auc_score}")
+
+        # Log data params
+        mlflow.log_param("data_url", data_url)
+        mlflow.log_param("input_rows", data.shape[0])
+        mlflow.log_param("input_cols", data.shape[1])
+
+        # Log artifacts: columns usded for modeling
+        cols_x = pd.DataFrame(list(train_x.columns))
+        cols_x.to_csv('/features/features.csv', header=False, index=False)
+        mlflow.log_artifact('/features/features.csv')
+
+        cols_y = pd.DataFrame(list(train_y.columsn))
+        cols_x.to_csv('/targets/targets.csv', header=False, index=False)
+        mlflow.log_artifact('/targets/targets.csv')
+
+
+
 
         mlflow.log_params(params)
         mlflow.log_metric("accuracy_score", accuracy_score)
