@@ -54,38 +54,47 @@ if __name__ == "__main__":
 
     #  SET Y VALUE, THIS CAN ALSO BE DONE WITH AN "sys.argv" function if necesary
     # The predicted column is "quality" which is a scalar from [3, 9]
-    train_x = train.drop(["quality"], axis=1)
-    test_x = test.drop(["quality"], axis=1)
-    train_y = train[["quality"]]
-    test_y = test[["quality"]]
+    train_x = train.drop(["Style"], axis=1)
+    test_x = test.drop(["Style"], axis=1)
+    train_y = train[["Style"]]
+    test_y = test[["Style"]]
 
-    alpha = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
-    l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
+    n_estimators = float(sys.argv[1]) if len(sys.argv) > 1 else 100
+    learning_rate = float(sys.argv[2]) if len(sys.argv) > 2 else 1.0
+    max_depth = float(sys.argv[3]) if len(sys.argv) > 3 else 5
 
-    with mlflow.start_run(run_name="YOUR_RUN_NAME") as run:
+
+    with mlflow.start_run(run_name="GradientBoosterRun") as run:
 
         params = {"n_estimators": 100,
                   "learning_rate":1.0,
-                  "max_depth":5,
-                  "random_state":0}
+                  "max_depth":5,}
 
-        lr = GradientBoostingClassifier(**params)
+        gradBoost = GradientBoostingClassifier(**params)
 
-        lr.fit(train_x, train_y)
+        gradBoost.fit(train_x, train_y)
 
-        predicted_qualities = lr.predict(test_x)
+        classified_styles = gradBoost.predict(test_x)
 
-        (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
+        (accuracy_score,
+         balanced_accuracy_score,
+         top_k_accuracy_score,
+         average_precision_score,
+         roc_auc_score) = eval_metrics(test_y, classified_styles)
 
-        print("Elasticnet model (alpha=%f, l1_ratio=%f):" % (alpha, l1_ratio))
-        print("  RMSE: %s" % rmse)
-        print("  MAE: %s" % mae)
-        print("  R2: %s" % r2)
+        print(f"GradientBoostingClassifier model (n_estimators= {n_estimators}, learning_rate={learning_rate} and max_depth={max_depth}):")
+        print(f"  accuracy_score: {accuracy_score}")
+        print(f"  balanced_accuracy_score: {balanced_accuracy_score}")
+        print(f"  top_k_accuracy_score: {top_k_accuracy_score}")
+        print(f"  average_precision_score: {average_precision_score}")
+        print(f"  roc_auc_score: {roc_auc_score}")
 
         mlflow.log_params(params)
-        mlflow.log_metric("rmse", rmse)
-        mlflow.log_metric("r2", r2)
-        mlflow.log_metric("mae", mae)
+        mlflow.log_metric("accuracy_score", accuracy_score)
+        mlflow.log_metric("balanced_accuracy_score", balanced_accuracy_score)
+        mlflow.log_metric("top_k_accuracy_score", top_k_accuracy_score)
+        mlflow.log_metric("average_precision_score", average_precision_score)
+        mlflow.log_metric("roc_auc_score", roc_auc_score)
 
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
 
@@ -96,8 +105,8 @@ if __name__ == "__main__":
             # There are other ways to use the Model Registry, which depends on the use case,
             # please refer to the doc for more information:
             # https://mlflow.org/docs/latest/model-registry.html#api-workflow
-            mlflow.log_model(sk_model=lr,
+            mlflow.log_model(sk_model=gradBoost,
                             artifact_path="sklearn-model",
-                            registered_model_name="sk-learn-ElasticNetModel")
+                            registered_model_name="sk-learn-gradBoost")
         else:
-            mlflow.sklearn.log_model(lr, "model")
+            mlflow.sklearn.log_model(gradBoost, "model")
