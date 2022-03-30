@@ -14,6 +14,7 @@ from sklearn.linear_model import ElasticNet
 from urllib.parse import urlparse
 import mlflow
 import mlflow.sklearn
+import dvc.api
 
 import logging
 
@@ -31,6 +32,14 @@ def eval_metrics(actual, pred):
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     np.random.seed(40)
+
+
+    path="/data/data/prepared/beer_profile_and_ratings.csv"
+    repo="https://github.com/stijnhering/PreTraineeship"
+    version="V1"
+
+    data_url = dvc.api.get_url(path=path, repo=repo, rev=version)
+    mlflow.set_experiment("demo")
 
     # LOAD TRAIN DATA
     # Read the wine-quality csv file from the URL
