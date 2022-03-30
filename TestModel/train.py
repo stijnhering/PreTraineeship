@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 import mlflow
 import mlflow.sklearn
 import dvc.api
+from IPython.display import display
 
 import logging
 
@@ -44,6 +45,7 @@ if __name__ == "__main__":
 
     try:
         data = pd.read_csv(data_url, sep=",")
+        display(data)
     except Exception as e:
         logger.exception(
             "Unable to download training & test CSV, check your internet connection. Error: %s", e
