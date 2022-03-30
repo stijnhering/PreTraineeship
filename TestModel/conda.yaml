@@ -1,4 +1,4 @@
-name: tutorial
+name: dataeng
 channels:
   - conda-forge
   - defaults

@@ -1,10 +1,15 @@
-name: tutorial
+name: GradientBoostingTest
 
 conda_env: conda.yaml
 
 entry_points:
   main:
     parameters:
-      alpha: { type: float, default: 0.5 }
-      l1_ratio: { type: float, default: 0.1 }
-    command: "python train.py {alpha} {l1_ratio}"
+      n_estimators: { type: float, default: 100 }
+      learning_rate: { type: float, default: 1.0 }
+      max_depth: { type: float, default: 5.0 }
+    command: "python train.py {n_estimators} {learning_rate}"
+  validate:
+    # parameters:
+    #   data_file: path
+    # command: "python validate.py {data_file}"
