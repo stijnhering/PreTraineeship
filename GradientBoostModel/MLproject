@@ -5,10 +5,10 @@ conda_env: conda.yaml
 entry_points:
   main:
     parameters:
-      n_estimators: { type: float, default: 100.0 }
+      n_estimators: { type: int, default: 100 }
       learning_rate: { type: float, default: 1.0 }
       max_depth: { type: float, default: 5.0 }
-    command: "python train.py -r {n_estimators} {learning_rate} {max_depth}"
+    command: "python train.py {n_estimators} {learning_rate} {max_depth}"
   # validate:
   # parameters:
   #   data_file: path

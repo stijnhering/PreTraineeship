@@ -1,0 +1,16 @@
+name: SVMmodel
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      C: { type: int, default: 1 }
+      kernel: { type: str, default: "rbf" }
+      degree: { type: int, default: 3 }
+      decision_function_shape: { type: str, default: "ovo" }
+    command: "python train.py {C} {kernel} {degree} {decision_function_shape}"
+# validate:
+# parameters:
+#   data_file: path
+# command: "python validate.py {data_file}"
