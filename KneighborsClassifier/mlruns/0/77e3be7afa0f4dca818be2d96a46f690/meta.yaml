@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/stijn/OneDrive/Bureaublad/PreTraineeship/KneighborsClassifier/mlruns/0/77e3be7afa0f4dca818be2d96a46f690/artifacts
+end_time: 1648817695304
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 77e3be7afa0f4dca818be2d96a46f690
+run_uuid: 77e3be7afa0f4dca818be2d96a46f690
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1648817693125
+status: 3
+tags: []
+user_id: smwhering
